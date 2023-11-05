@@ -1,5 +1,6 @@
+import { createUserWithEmailAndPassword, signInWithEmailAndPassword } from 'firebase/auth';
 import React from 'react';
-import { StyleSheet, TextInput, View } from 'react-native';
+import { ActivityIndicator, Button, StyleSheet, TextInput, View } from 'react-native';
 import { FIREBASE_AUTH } from '../../FirebaseConfig';
 
 const Login = () => {
@@ -8,12 +9,48 @@ const Login = () => {
    const [loading, setLoading] = React.useState(false);
    const auth = FIREBASE_AUTH;
 
-  return (
-    <View style={styles.container}>
-       <TextInput value={email} style={styles.input} placeholder='Email' autoCapitalize='none' onChange={(text) => setEmail(text)}></TextInput>
-       <TextInput value={password} style={styles.input} placeholder='password' autoCapitalize='none' onChange={(text) => setPassword(text)}></TextInput>
-    </View>
-  );
+   const signIn = async () => {
+      setLoading(true);
+      try {
+         const response = await signInWithEmailAndPassword(auth, email, password);
+         console.log(response);
+      } catch (error: any) {
+         console.log(error);
+         alert('Sign In failed' + error.message);
+      } finally {
+            setLoading(false);
+         }
+      }
+
+   const signUp = async () => {
+      setLoading(true);
+      try {
+         const response = await createUserWithEmailAndPassword(auth, email, password);
+         console.log(response);
+         alert('Check your emails!');
+      } catch (error: any) {
+         console.log(error);
+         alert('Sign In failed' + error.message);
+      } finally {
+            setLoading(false);
+         }
+      }
+
+   return (
+      <View style={styles.container}>
+         <TextInput value={email} style={styles.input} placeholder='Email' autoCapitalize='none' onChange={(text) => setEmail(text)}></TextInput>
+         <TextInput value={password} style={styles.input} placeholder='password' autoCapitalize='none' onChange={(text) => setPassword(text)}></TextInput>
+
+         {loading ? (
+         <ActivityIndicator size="large" color="#0000f" />
+            ) : ( 
+            <>
+               <Button title="Login" onPress={signIn} />
+               <Button title="Create account" onPress={signUp} />
+            </>
+      )}
+      </View>
+   );
 };
 
 export default Login;
