@@ -1,6 +1,6 @@
 import { createUserWithEmailAndPassword, signInWithEmailAndPassword } from 'firebase/auth';
 import React, { useState } from 'react';
-import { ActivityIndicator, Button, StyleSheet, TextInput, View } from 'react-native';
+import { ActivityIndicator, Button, KeyboardAvoidingView, StyleSheet, TextInput, View } from 'react-native';
 import { FIREBASE_AUTH } from '../../FirebaseConfig';
 
 const Login = () => {
@@ -38,8 +38,9 @@ const Login = () => {
 
    return (
       <View style={styles.container}>
-         <TextInput value={email} style={styles.input} placeholder='Email' autoCapitalize='none' onChange={(text) => setEmail(text)}></TextInput>
-         <TextInput secureTextEntry={true} value={password} style={styles.input} placeholder='password' autoCapitalize='none' onChange={(text) => setPassword(text)}></TextInput>
+         <KeyboardAvoidingView behavior="padding">
+         <TextInput value={email} style={styles.input} placeholder='Email' autoCapitalize='none' onChangeText={(text) => setEmail(text)}></TextInput>
+         <TextInput secureTextEntry={true} value={password} style={styles.input} placeholder='password' autoCapitalize='none' onChangeText={(text) => setPassword(text)}></TextInput>
 
          {loading ? (
          <ActivityIndicator size="large" color="#0000ff" />
@@ -49,6 +50,7 @@ const Login = () => {
                <Button title="Create account" onPress={signUp} />
             </>
       )}
+      </KeyboardAvoidingView>
       </View>
    );
 };
@@ -68,5 +70,5 @@ const styles = StyleSheet.create({
       borderRadius: 4,
       padding: 10,
       backgroundColor: '#fff',
-   }
+   },
 });
