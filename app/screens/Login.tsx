@@ -1,12 +1,12 @@
 import { createUserWithEmailAndPassword, signInWithEmailAndPassword } from 'firebase/auth';
-import React from 'react';
+import React, { useState } from 'react';
 import { ActivityIndicator, Button, StyleSheet, TextInput, View } from 'react-native';
 import { FIREBASE_AUTH } from '../../FirebaseConfig';
 
 const Login = () => {
-   const [email, setEmail] = React.useState('');
-   const [password, setPassword] = React.useState('');
-   const [loading, setLoading] = React.useState(false);
+   const [email, setEmail] = useState('');
+   const [password, setPassword] = useState('');
+   const [loading, setLoading] = useState(false);
    const auth = FIREBASE_AUTH;
 
    const signIn = async () => {
@@ -16,7 +16,7 @@ const Login = () => {
          console.log(response);
       } catch (error: any) {
          console.log(error);
-         alert('Sign In failed' + error.message);
+         alert('Sign In failed ' + error.message);
       } finally {
             setLoading(false);
          }
@@ -30,7 +30,7 @@ const Login = () => {
          alert('Check your emails!');
       } catch (error: any) {
          console.log(error);
-         alert('Sign In failed' + error.message);
+         alert('Sign In failed ' + error.message);
       } finally {
             setLoading(false);
          }
@@ -39,10 +39,10 @@ const Login = () => {
    return (
       <View style={styles.container}>
          <TextInput value={email} style={styles.input} placeholder='Email' autoCapitalize='none' onChange={(text) => setEmail(text)}></TextInput>
-         <TextInput value={password} style={styles.input} placeholder='password' autoCapitalize='none' onChange={(text) => setPassword(text)}></TextInput>
+         <TextInput secureTextEntry={true} value={password} style={styles.input} placeholder='password' autoCapitalize='none' onChange={(text) => setPassword(text)}></TextInput>
 
          {loading ? (
-         <ActivityIndicator size="large" color="#0000f" />
+         <ActivityIndicator size="large" color="#0000ff" />
             ) : ( 
             <>
                <Button title="Login" onPress={signIn} />
